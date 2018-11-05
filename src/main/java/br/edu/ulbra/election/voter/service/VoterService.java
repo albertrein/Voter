@@ -100,13 +100,20 @@ public class VoterService {
         if (StringUtils.isBlank(voterInput.getEmail())){
             throw new GenericOutputException("Invalid email");
         }
+        if(voterRepository.findFirstByEmail(voterInput.getEmail())!=null){
+            throw new GenericOutputException(" Existent email");
+        }
+
         if (StringUtils.isBlank(voterInput.getName())){
             throw new GenericOutputException("Invalid name");
         }
+
         if (!StringUtils.isBlank(voterInput.getPassword())){
             if (!voterInput.getPassword().equals(voterInput.getPasswordConfirm())){
                 throw new GenericOutputException("Passwords doesn't match");
             }
+
+            voterInput.setPassword(passwordEncoder.encode(voterInput.getPassword()));
         } else {
             if (!isUpdate) {
                 throw new GenericOutputException("Password doesn't match");

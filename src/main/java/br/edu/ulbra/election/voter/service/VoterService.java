@@ -1,5 +1,5 @@
 package br.edu.ulbra.election.voter.service;
-
+import br.edu.ulbra.election.voter.validations.ValidateName;
 import br.edu.ulbra.election.voter.exception.GenericOutputException;
 import br.edu.ulbra.election.voter.input.v1.VoterInput;
 import br.edu.ulbra.election.voter.model.Voter;
@@ -105,6 +105,10 @@ public class VoterService {
         }
 
         if (StringUtils.isBlank(voterInput.getName())){
+            throw new GenericOutputException("Invalid name");
+        }
+
+        if(!ValidateName.validateName(voterInput.getName())){
             throw new GenericOutputException("Invalid name");
         }
 

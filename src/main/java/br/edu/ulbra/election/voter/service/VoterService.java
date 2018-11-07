@@ -101,7 +101,9 @@ public class VoterService {
             throw new GenericOutputException("Invalid email");
         }
         if(voterRepository.findFirstByEmail(voterInput.getEmail())!=null){
-            throw new GenericOutputException(" Existent email");
+            if(!isUpdate) {
+                throw new GenericOutputException(" Existent email");
+            }
         }
 
         if (StringUtils.isBlank(voterInput.getName())){

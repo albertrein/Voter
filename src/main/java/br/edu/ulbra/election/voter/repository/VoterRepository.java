@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface VoterRepository extends CrudRepository<Voter, Long> {
 
-    public Voter findFirstByEmail(String email);
+    Voter findFirstByEmail(String email);
+
 }

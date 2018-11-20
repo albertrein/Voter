@@ -29,7 +29,7 @@ public class VoterApi {
 
     @GetMapping("/{voterId}")
     @ApiOperation(value = "Get voter by Id")
-    public VoterOutput getById(@PathVariable Long voterId){
+    public VoterOutput getById(@PathVariable(name="voterId") Long voterId){
         return voterService.getById(voterId);
     }
 

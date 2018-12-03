@@ -7,6 +7,7 @@ import br.edu.ulbra.election.voter.model.Voter;
 import br.edu.ulbra.election.voter.output.v1.GenericOutput;
 import br.edu.ulbra.election.voter.output.v1.VoterOutput;
 import br.edu.ulbra.election.voter.repository.VoterRepository;
+import br.edu.ulbra.election.voter.validations.ValidateName;
 import feign.FeignException;
 import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
@@ -128,13 +129,29 @@ public class VoterService {
         if (StringUtils.isBlank(voterInput.getEmail())){
             throw new GenericOutputException("Invalid email");
         }
-        if (StringUtils.isBlank(voterInput.getName()) || voterInput.getName().trim().length() < 5 || !voterInput.getName().trim().contains(" ")) {
+        if(voterRepository.findFirstByEmail(voterInput.getEmail())!=null){
+            if(!isUpdate) {
+                throw new GenericOutputException(" Existent email");
+            }
+        }
+
+        if (StringUtils.isBlank(voterInput.getName())){
             throw new GenericOutputException("Invalid name");
         }
+
+        if(!ValidateName.validateName(voterInput.getName())){
+            throw new GenericOutputException("Invalid name, name must contain a last name");
+        }
+        if (StringUtils.isBlank(voterInput.getName()) || voterInput.getName().trim().length() < 5 ) {
+            throw new GenericOutputException("Invalid name, name must contain at least 5 characters");
+        }
+
         if (!StringUtils.isBlank(voterInput.getPassword())){
             if (!voterInput.getPassword().equals(voterInput.getPasswordConfirm())){
                 throw new GenericOutputException("Passwords doesn't match");
             }
+
+            voterInput.setPassword(passwordEncoder.encode(voterInput.getPassword()));
         } else {
             if (!isUpdate) {
                 throw new GenericOutputException("Password doesn't match");

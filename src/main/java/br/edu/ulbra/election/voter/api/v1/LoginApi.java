@@ -4,10 +4,12 @@ import br.edu.ulbra.election.voter.input.v1.LoginInput;
 import br.edu.ulbra.election.voter.output.v1.LoginOutput;
 import br.edu.ulbra.election.voter.output.v1.VoterOutput;
 import br.edu.ulbra.election.voter.service.LoginService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/v1/login")
+@RestController
+@RequestMapping("/v1/login")
 public class LoginApi {
 
     private final LoginService loginService;
@@ -23,6 +25,7 @@ public class LoginApi {
     }
 
     @GetMapping("/check/{token}")
+    @ApiOperation(value = "Get token")
     public VoterOutput checkToken(@PathVariable(value = "token") String token){
         return loginService.checkToken(token);
     }

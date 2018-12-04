@@ -139,7 +139,7 @@ public class VoterService {
             throw new GenericOutputException("Invalid name");
         }
 
-        if(!ValidateName.validateName(voterInput.getName())){
+        if(!voterInput.getName().trim().contains(" ")){
             throw new GenericOutputException("Invalid name, name must contain a last name");
         }
         if (StringUtils.isBlank(voterInput.getName()) || voterInput.getName().trim().length() < 5 ) {

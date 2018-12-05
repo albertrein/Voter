@@ -150,8 +150,6 @@ public class VoterService {
             if (!voterInput.getPassword().equals(voterInput.getPasswordConfirm())){
                 throw new GenericOutputException("Passwords doesn't match");
             }
-
-            voterInput.setPassword(passwordEncoder.encode(voterInput.getPassword()));
         } else {
             if (!isUpdate) {
                 throw new GenericOutputException("Password doesn't match");

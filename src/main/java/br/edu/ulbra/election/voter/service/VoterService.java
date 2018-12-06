@@ -110,7 +110,7 @@ public class VoterService {
     }
 
     private void countVotesByVoterId(Long voterId){
-        //validando se o eleitor já votou
+        //validating whether the voter already voted
         try{
             if(electionClientService.countVotesByVoterId(voterId) > 0){
                 throw new GenericOutputException("Voter already voted");
@@ -131,7 +131,7 @@ public class VoterService {
         }
         if(voterRepository.findFirstByEmail(voterInput.getEmail())!=null){
             if(!isUpdate) {
-                throw new GenericOutputException(" Existent email");
+                throw new GenericOutputException("Existent email");
             }
         }
 
